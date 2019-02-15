@@ -4,13 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/DavidHanover/Photo_Board-VueJS-GraphQL.git"
   },
   "author": "David Hanover",
   "license": "ISC",
