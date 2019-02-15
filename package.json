@@ -8,7 +8,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/DavidHanover/Photo_Board-VueJS-GraphQL.git"
+    "server": "nodemon server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently --names \"server,client\" \"npm run server --silent\" \"npm run client --silent\""
   },
   "author": "David Hanover",
   "license": "ISC",
