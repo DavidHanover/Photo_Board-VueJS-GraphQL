@@ -1,38 +1,53 @@
 <template>
-  <v-container>
-    <h1>Home</h1>
-    <div v-if="$apollo.loading">Loading...</div>
-    <ul v-for="post in getPosts" :key="post._id">
-      <li>
-        {{post.title}}
-        {{post.imageUrl}}
-        {{post.description}}
-      </li>
-      <li>{{post.likes}}</li>
-    </ul>
-    <v-btn color="secondary">Button</v-btn>
+  <v-container text-xs-center>
+    <v-layout row>
+      <v-dialog v-model="loading" persistent fullscreen>
+        <v-container fill-height>
+          <v-layout row justify-center align-center>
+            <v-progress-circular indeterminate :size="70" :width="7" color="secondary"></v-progress-circular>
+          </v-layout>
+        </v-container>
+      </v-dialog>
+    </v-layout>
+    <v-flex xs12>
+      <v-carousel v-if="!loading && posts.length" v-bind="{ 'cycle': true}" interval="3000">
+        <v-carousel-item v-for="post in posts" :key="post._id" :src="post.imageUrl">
+          <h1 id="carouselTitle">{{post.title}}</h1>
+        </v-carousel-item>
+      </v-carousel>
+    </v-flex>
   </v-container>
 </template>
 
 <script>
-import { gql } from "apollo-boost";
+import { mapGetters } from "vuex";
 
 export default {
   name: "home",
-  apollo: {
-    getPosts: {
-      query: gql`
-        query {
-          getPosts {
-            _id
-            title
-            imageUrl
-            description
-            likes
-          }
-        }
-      `
+  created() {
+    this.handleGetCarouselPosts();
+  },
+  computed: {
+    ...mapGetters(["loading", "posts"])
+  },
+  methods: {
+    handleGetCarouselPosts() {
+      //reach out to vuex store fire action that gets posts for caorusel
+      this.$store.dispatch("getPosts");
     }
   }
 };
 </script>
+
+<style>
+#carouselTitle {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  border-radius: 0.5em;
+  margin: 0 auto;
+  bottom: 50px;
+  left: 0;
+  right: 0;
+}
+</style>
