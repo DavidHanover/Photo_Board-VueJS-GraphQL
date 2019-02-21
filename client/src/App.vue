@@ -10,6 +10,7 @@
       </v-toolbar>
 
       <v-divider></v-divider>
+
       <!-- Side Navbar Links -->
       <v-list>
         <v-list-tile ripple v-for="item in sideNavItems" :key="item.title" :to="item.link">
@@ -20,6 +21,7 @@
         </v-list-tile>
       </v-list>
     </v-navigation-drawer>
+
     <!-- Horizontal Navbar -->
     <v-toolbar fixed color="primary" dark>
       <!-- App Title -->
@@ -51,7 +53,9 @@
     <!-- App Content -->
     <main>
       <v-container class="mt-4">
-        <router-view/>
+        <transition name="fade">
+          <router-view/>
+        </transition>
       </v-container>
     </main>
   </v-app>
@@ -62,7 +66,7 @@ export default {
   name: "App",
   data() {
     return {
-      sideNav: true
+      sideNav: false
     };
   },
   computed: {
@@ -112,3 +116,20 @@ export default {
   }
 };
 </script>
+
+<style>
+.fade-enter-active,
+.fade-leave-active {
+  transition-property: all;
+  transition-duration: 0.25s;
+}
+
+.fade-enter-active {
+  transition-delay: 0.25s;
+}
+
+.fade-enter,
+.fade-leave-active {
+  opacity: 0;
+}
+</style>

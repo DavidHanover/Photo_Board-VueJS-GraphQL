@@ -5,12 +5,12 @@ import "vuetify/src/stylus/app.styl";
 Vue.use(Vuetify, {
   iconfont: "md",
   theme: {
-    primary: "#554527",
-    secondary: "#495867",
-    accent: "#577399",
+    primary: "#6d6a75",
+    secondary: "#deb841",
+    accent: "#457c94",
     error: "#9c27b0",
     warning: "#673ab7",
-    info: "#7c7771",
+    info: "#de9e36",
     success: "#939ea0"
   }
 });
