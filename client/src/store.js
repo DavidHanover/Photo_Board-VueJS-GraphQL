@@ -39,7 +39,7 @@ export default new Vuex.Store({
           commit("setLoading", false);
           //add user data to state
           commit("setUser", data.getCurrentUser);
-          console.log(data.getCurrentUser, "TEST");
+          console.log(data.getCurrentUser);
         })
         .catch(err => {
           commit("setLoading", false);
@@ -66,6 +66,8 @@ export default new Vuex.Store({
         });
     },
     signinUser: ({ commit }, payload) => {
+      //clear token before signin
+      localStorage.setItem("token", "");
       apolloClient
         .mutate({
           operationName: "signInUser",
