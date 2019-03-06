@@ -7,15 +7,28 @@
       </v-flex>
     </v-layout>
 
+    <!-- Error Alert!! -->
+    <v-layout v-if="error" row wrap>
+      <v-flex xs12 sm6 offset-sm3>
+        <form-alert :message="error.message"></form-alert>
+      </v-flex>
+    </v-layout>
+
     <!-- Sign in Form -->
     <v-layout row wrap>
       <v-flex xs12 sm6 offset-sm3>
         <v-card color="secondary" dark>
           <v-container>
-            <v-form @submit.prevent="handleSigninUser">
+            <v-form
+              v-model="isFormValid"
+              lazy-validation
+              ref="form"
+              @submit.prevent="handleSigninUser"
+            >
               <v-layout row>
                 <v-flex xs12>
                   <v-text-field
+                    :rules="usernameRules"
                     v-model="username"
                     label="Username"
                     prepend-icon="face"
@@ -28,6 +41,7 @@
               <v-layout row>
                 <v-flex xs12>
                   <v-text-field
+                    :rules="passwordRules"
                     v-model="password"
                     label="Password"
                     prepend-icon="lock"
@@ -39,7 +53,11 @@
 
               <v-layout row>
                 <v-flex xs12>
-                  <v-btn color="accent" type="submit">Signin</v-btn>
+                  <v-btn :loading="loading" :disabled="!isFormValid" color="accent" type="submit">
+                    <span slot="loader" class="custom-loader">
+                      <v-icon light>cached</v-icon>
+                    </span>Signin
+                  </v-btn>
                   <router-link to="/signup">Don't have an account?</router-link>
                 </v-flex>
               </v-layout>
@@ -57,12 +75,27 @@ export default {
   name: "Signin",
   data() {
     return {
+      isFormValid: true,
       username: "",
-      password: ""
+      password: "",
+      usernameRules: [
+        //check if username in input
+        username => !!username || "Username is required!",
+        //make sure username less then ten chars
+        username =>
+          username.length < 10 || "Username must be less than ten characters!"
+      ],
+      passwordRules: [
+        //check if password
+        password => !!password || "Password is required!",
+        //make sure password is more than seven length
+        password =>
+          password.length > 4 || "Password must be at least 4 characters!"
+      ]
     };
   },
   computed: {
-    ...mapGetters(["user"])
+    ...mapGetters(["loading", "user", "error"])
   },
   watch: {
     user(value) {
@@ -74,14 +107,52 @@ export default {
   },
   methods: {
     handleSigninUser() {
-      this.$store.dispatch("signinUser", {
-        username: this.username,
-        password: this.password
-      });
+      if (this.$refs.form.validate()) {
+        this.$store.dispatch("signinUser", {
+          username: this.username,
+          password: this.password
+        });
+      }
     }
   }
 };
 </script>
 
 <style>
+.custom-loader {
+  animation: loader 1s infinite;
+  display: flex;
+}
+@-moz-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-webkit-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@-o-keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+@keyframes loader {
+  from {
+    transform: rotate(0);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 </style>
