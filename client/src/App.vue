@@ -76,6 +76,11 @@
         <transition name="fade">
           <router-view/>
         </transition>
+        <v-snackbar v-model="authSnackBar" color="success" bottom left>
+          <v-icon light>check_circle</v-icon>
+          <h3>Sign-in Success!</h3>
+          <v-btn flat dark @click.native="authSnackBar = false">Close</v-btn>
+        </v-snackbar>
       </v-container>
     </main>
   </v-app>
@@ -88,8 +93,17 @@ export default {
   name: "App",
   data() {
     return {
-      sideNav: false
+      sideNav: false,
+      authSnackBar: false
     };
+  },
+  watch: {
+    user(newValue, oldValue) {
+      // if we had no value previously, show snackbar
+      if (oldValue === null) {
+        this.authSnackBar = true;
+      }
+    }
   },
   computed: {
     ...mapGetters(["user"]),

@@ -90,7 +90,7 @@ export default {
         password => !!password || "Password is required!",
         //make sure password is more than seven length
         password =>
-          password.length > 4 || "Password must be at least 4 characters!"
+          password.length >= 4 || "Password must be at least 4 characters!"
       ]
     };
   },
