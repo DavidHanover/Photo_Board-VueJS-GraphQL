@@ -20,7 +20,7 @@
   "homepage": "https://github.com/DavidHanover/Photo_Board-VueJS-GraphQL#readme",
   "dependencies": {
     "apollo-server": "^2.4.2",
-    "bcrypt": "^3.0.4",
+    "bcrypt": "^5.0.0",
     "dotenv": "^6.2.0",
     "graphql": "^14.1.1",
     "jsonwebtoken": "^8.4.0",
